@@ -437,6 +437,7 @@ public class GameManager : MonoBehaviour
 		{
 			leftRotateButtonClicked = false;
 			pos = piece.transform.position;
+			Debug.Log(pos);
 			//piece.transform.rotation = Quaternion.Euler(0, 0, angle + 90);			//calisan
 
 			//Quaternion desiredRotation  = Quaternion.Euler(0, 0, angle + 90);
@@ -450,6 +451,7 @@ public class GameManager : MonoBehaviour
 			{
 				while (Collide4(rotate: 90))                                                      //calisan
 				{
+					Debug.Log("girdi");
 
 					piece.transform.position = piece.transform.position + new Vector3(rotateOffset, 0, 0);
 					rotateOffset = -(rotateOffset + (rotateOffset > 0 ? 1 : -1));
@@ -623,6 +625,7 @@ public class GameManager : MonoBehaviour
 		yield return null;
 	}
 	void MoveMobil() {
+		Debug.Log(touch.position);
 #region SwipeMove
 		Vector2  pos;
 		int rotateOffset = 1;
@@ -828,7 +831,7 @@ public class GameManager : MonoBehaviour
 	{
 		settingsPanel.SetActive(false);
 		InvokeRepeating("Drop", 1, 1);
-		StartCoroutine(WaitInput(0.05f));
+		acceptInput = true;
 	}
 
 	void ToggleValueChanged()
@@ -858,11 +861,5 @@ public class GameManager : MonoBehaviour
 				leftRotateButtonClicked = true;
 				break;
 		} 
-	}
-
-	IEnumerator WaitInput(float seconds)
-	{
-		yield return new WaitForSeconds(seconds);
-		acceptInput = true;
 	}
 }
