@@ -166,7 +166,6 @@ public class GameManager : MonoBehaviour
 			{
 				if(area[y,x] != 0)
 				{
-					Debug.Log("y" + y);
 
 					area[y - 1, x] = 1;
 					area[y, x] = 0;
@@ -392,19 +391,17 @@ public class GameManager : MonoBehaviour
 	{
 		int rotateOffset = 1;
 		float angle = piece.transform.rotation.eulerAngles.z;
-		Vector2 pos;
+		Vector3 pos;
 		if (Input.GetKeyDown("right") || Input.GetKeyDown("d") || rightButtonClicked)
 		{
 			rightButtonClicked = false;
 
 			moveManager.MoveRight(piece);
-			//piece.transform.position = piece.transform.position + new Vector3(1, 0, 0);
 
-			//if (Collide3())
-			//{
-			//	piece.transform.position = piece.transform.position + new Vector3(-1, 0, 0);
-
-			//}
+			if (Collide3())
+			{
+				piece.transform.position = piece.transform.position + new Vector3(-1, 0, 0);
+			}
 
 		}
 		else if (Input.GetKeyDown("left") || Input.GetKeyDown("a") || leftButtonClicked)
@@ -440,6 +437,7 @@ public class GameManager : MonoBehaviour
 		{
 			leftRotateButtonClicked = false;
 			pos = piece.transform.position;
+			Debug.Log(pos);
 			//piece.transform.rotation = Quaternion.Euler(0, 0, angle + 90);			//calisan
 
 			//Quaternion desiredRotation  = Quaternion.Euler(0, 0, angle + 90);
@@ -455,7 +453,7 @@ public class GameManager : MonoBehaviour
 				{
 					Debug.Log("girdi");
 
-					piece.transform.position = piece.transform.position + new Vector3(rotateOffset, 0, -1);
+					piece.transform.position = piece.transform.position + new Vector3(rotateOffset, 0, 0);
 					rotateOffset = -(rotateOffset + (rotateOffset > 0 ? 1 : -1));
 
 					if (rotateOffset > pieceArray.GetLength(0))
@@ -583,11 +581,11 @@ public class GameManager : MonoBehaviour
 		{
 			piece.transform.rotation = Quaternion.Euler(0, 0, piece.transform.rotation.eulerAngles.z + step);
 			angle -= 15;
-			CancelInvoke("Drop");
+			//CancelInvoke("Drop");
 
 			yield return null;
 		}
-		InvokeRepeating("Drop", 1, 1);
+		//InvokeRepeating("Drop", 1, 1);
 		yield return null;
 
 
@@ -604,7 +602,6 @@ public class GameManager : MonoBehaviour
 		while (rotateTime < 0.4f) 
 		{
 			rotateTime += Time.deltaTime;
-			Debug.Log(piece.transform.rotation.eulerAngles.z);
 			piece.transform.rotation = Quaternion.Lerp(piece.transform.rotation, desiredRotation, Time.deltaTime * 50);
 			acceptInput = false;
 			yield return null;
