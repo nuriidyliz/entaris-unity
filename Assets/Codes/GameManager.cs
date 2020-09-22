@@ -583,11 +583,11 @@ public class GameManager : MonoBehaviour
 		{
 			piece.transform.rotation = Quaternion.Euler(0, 0, piece.transform.rotation.eulerAngles.z + step);
 			angle -= 15;
-			CancelInvoke("Drop");
+			//CancelInvoke("Drop");
 
 			yield return null;
 		}
-		InvokeRepeating("Drop", 1, 1);
+		//InvokeRepeating("Drop", 1, 1);
 		yield return null;
 
 
