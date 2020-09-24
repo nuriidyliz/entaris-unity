@@ -111,9 +111,9 @@ public class GameManager : MonoBehaviour
 		if (acceptInput & (Input.anyKey || Input.touchCount > 0 || buttonClicked))
 		{
 
-			Move();
-			//touch = Input.GetTouch(0);
-			//MoveMobil();
+			//Move();
+			touch = Input.GetTouch(0);
+			MoveMobil();
 		}
 		else
 		{
@@ -559,7 +559,7 @@ public class GameManager : MonoBehaviour
 
 	void MoveMobil() {
 #region SwipeMove
-		Vector2  pos;
+		Vector3  pos;
 		int rotateOffset = 1;
 		time += Time.deltaTime;
 		float angle = piece.transform.rotation.eulerAngles.z;
@@ -580,18 +580,23 @@ public class GameManager : MonoBehaviour
 			if (SwipeDirection().x > 0 || rightButtonClicked)
 			{
 				rightButtonClicked = false;
-				if (!Collide(type: "side", dirX: 1).Contains("Right"))
+
+				moveManager.MoveHorizontal(piece, Direction.Right);
+
+				if (Collide3())
 				{
-					piece.transform.position = piece.transform.position + new Vector3(1, 0, 0);
+					moveManager.MoveHorizontal(piece, Direction.Left);
 				}
 
 			}
 			else
 			{
 				leftButtonClicked = false;
-				if (!Collide("side", dirX: -1).Contains("Left"))
+				moveManager.MoveHorizontal(piece, Direction.Left);
+
+				if (Collide3())
 				{
-					piece.transform.position = piece.transform.position + new Vector3(-1, 0, 0);
+					moveManager.MoveHorizontal(piece, Direction.Right);
 				}
 			}
 
@@ -601,24 +606,16 @@ public class GameManager : MonoBehaviour
 			if (IsRotateLeft() || leftRotateButtonClicked)
 			{
 				leftRotateButtonClicked = false;
-				#region CALISAN MOBIL SAG
-				//piece.transform.rotation = Quaternion.Euler(0, 0, angle + 90);
-				//angle = piece.transform.rotation.eulerAngles.z;
-
-				//if (Collide2())
-				//{
-				//	piece.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
-				//}
-				#endregion
 				pos = piece.transform.position;
 
 				if (!Collide4(rotate: 90))
 				{
-					StartCoroutine(Rotate2(90));
+					StartCoroutine(moveManager.Rotate(piece, 90));
+
 				}
 				else
 				{
-					while (Collide4(rotate: 90))
+					while (Collide4(rotate: 90))                                                      //calisan
 					{
 
 						piece.transform.position = piece.transform.position + new Vector3(rotateOffset, 0, 0);
@@ -632,7 +629,7 @@ public class GameManager : MonoBehaviour
 
 						if (!Collide4(rotate: 90))
 						{
-							StartCoroutine(Rotate2(90));
+							StartCoroutine(moveManager.Rotate(piece, 90));
 							break;
 						}
 					}
@@ -641,21 +638,14 @@ public class GameManager : MonoBehaviour
 			else
 			{
 				rightRotateButtonClicked = false;
-				#region CALISAN MOBIL
-				//piece.transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
-				//angle = piece.transform.rotation.eulerAngles.z;
 
-				//if (Collide2())
-				//{
-				//	piece.transform.rotation = Quaternion.Euler(0, 0, angle + 90);
-				//}
-
-				#endregion
 				pos = piece.transform.position;
 
 				if (!Collide4(rotate: -90))
 				{
-					StartCoroutine(Rotate2(-90));
+
+					StartCoroutine(moveManager.Rotate(piece, -90));
+
 				}
 				else
 				{
@@ -673,7 +663,7 @@ public class GameManager : MonoBehaviour
 
 						if (!Collide4(rotate: -90))
 						{
-							StartCoroutine(Rotate2(-90));
+							StartCoroutine(moveManager.Rotate(piece, -90));
 							break;
 						}
 					}
