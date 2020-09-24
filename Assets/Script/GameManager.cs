@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
 		if (acceptInput & (Input.anyKey || Input.touchCount > 0 || buttonClicked))
 		{
 
-			Move();
+			//Move();
 			//touch = Input.GetTouch(0);
 			//MoveMobil();
 		}
