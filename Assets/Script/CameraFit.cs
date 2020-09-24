@@ -205,7 +205,7 @@ public class CameraFit : MonoBehaviour
 	{
 #if UNITY_EDITOR
 		ComputeResolution();
-		Debug.Log(_height * yFactor);
+		//Debug.Log(_height * yFactor);
 #endif
 	}
 

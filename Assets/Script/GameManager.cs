@@ -350,10 +350,8 @@ public class GameManager : MonoBehaviour
 		}
 		else
 		{
-			//Vector3 current = piece.transform.position;
-			//Vector3 target = piece.transform.position + new Vector3(0f, -1f, 0f);
-			//StartCoroutine(DropMove(current, target));
-			piece.transform.position = piece.transform.position + new Vector3(0f, -1.0f, 0f);
+
+			moveManager.MoveDown(piece);
 		}
 	}
 
@@ -396,22 +394,22 @@ public class GameManager : MonoBehaviour
 		{
 			rightButtonClicked = false;
 
-			moveManager.MoveRight(piece);
+			moveManager.MoveHorizontal(piece, Direction.Right);
 
 			if (Collide3())
 			{
-				piece.transform.position = piece.transform.position + new Vector3(-1, 0, 0);
+				moveManager.MoveHorizontal(piece, Direction.Left);
 			}
 
 		}
 		else if (Input.GetKeyDown("left") || Input.GetKeyDown("a") || leftButtonClicked)
 		{
 			leftButtonClicked = false;
-			piece.transform.position = piece.transform.position + new Vector3(-1, 0, 0);
+			moveManager.MoveHorizontal(piece, Direction.Left);
+
 			if (Collide3())
 			{
-				piece.transform.position = piece.transform.position + new Vector3(1, 0, 0);
-
+				moveManager.MoveHorizontal(piece, Direction.Right);
 			}
 
 		}
@@ -437,13 +435,10 @@ public class GameManager : MonoBehaviour
 		{
 			leftRotateButtonClicked = false;
 			pos = piece.transform.position;
-			//piece.transform.rotation = Quaternion.Euler(0, 0, angle + 90);			//calisan
 
-			//Quaternion desiredRotation  = Quaternion.Euler(0, 0, angle + 90);
-			//piece.transform.rotation = Quaternion.Lerp(piece.transform.rotation, desiredRotation, Time.deltaTime * 40);
 			if(!Collide4(rotate: 90))
 			{
-				StartCoroutine(Rotate2(90));
+				StartCoroutine(moveManager.Rotate(piece,90));
 
 			}
 			else
@@ -463,7 +458,7 @@ public class GameManager : MonoBehaviour
 
 					if (!Collide4(rotate: 90))
 					{
-						StartCoroutine(Rotate2(90));
+						StartCoroutine(moveManager.Rotate(piece,90));
 						break;
 					}
 				}
@@ -524,7 +519,7 @@ public class GameManager : MonoBehaviour
 			if (!Collide4(rotate: -90))
 			{
 
-				StartCoroutine(Rotate2(-90));
+				StartCoroutine(moveManager.Rotate(piece,-90));
 
 			}
 			else
@@ -543,7 +538,7 @@ public class GameManager : MonoBehaviour
 
 					if (!Collide4(rotate: -90))
 					{
-						StartCoroutine(Rotate2(-90));
+						StartCoroutine(moveManager.Rotate(piece,-90));
 						break;
 					}
 				}
@@ -622,6 +617,7 @@ public class GameManager : MonoBehaviour
 		acceptInput = true;
 		yield return null;
 	}
+
 	void MoveMobil() {
 #region SwipeMove
 		Vector2  pos;
