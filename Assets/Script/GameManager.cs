@@ -284,15 +284,10 @@ public class GameManager : MonoBehaviour
 			else
 			{
 
-				//Debug.Log(piece.transform.localPosition.x.ToString("F10") +  "," + piece.transform.position.y.ToString("F10"));
 				x = (int)(Mathf.Round(piece.transform.GetChild(i).transform.position.x) + dirX);
 				y = (int)(Mathf.Round(piece.transform.GetChild(i).transform.position.y) ) ;
 
 
-				//Debug.Log(piece.transform.GetChild(i).name + " " + (piece.transform.GetChild(i).transform.position.x).ToString("F10") + 
-				//	"," + (piece.transform.GetChild(i).transform.position.y).ToString("F10") + " bottom" + (y <= 1 - tolerance) + 
-				//																			   " local" + (piece.transform.GetChild(i).transform.localPosition.x).ToString("F10") + "," + 
-				//																			   (piece.transform.GetChild(i).transform.localPosition.y).ToString("F10"));
 
 				if (type.Equals("side"))
 					
@@ -451,7 +446,6 @@ public class GameManager : MonoBehaviour
 
 					if (rotateOffset > pieceArray.GetLength(0))
 					{
-						//piece.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
 						piece.transform.position = pos;
 						break;
 					}
@@ -468,26 +462,6 @@ public class GameManager : MonoBehaviour
 			angle = piece.transform.rotation.eulerAngles.z;
 
 
-
-
-			//while (Collide3())														//calisan
-			//{
-			//	piece.transform.position = piece.transform.position + new Vector3(rotateOffset, 0, 0);
-			//	rotateOffset = -(rotateOffset + (rotateOffset > 0 ? 1 : -1));
-
-			//	if(rotateOffset > pieceArray.GetLength(0))
-			//	{
-			//		piece.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
-			//		piece.transform.position = pos;
-			//		break;
-			//	}
-
-			//}
-
-			//if (Collide2())
-			//{
-			//	piece.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
-			//}
 		}
 		else if (Input.GetKeyDown("e") || rightRotateButtonClicked)
 		{
@@ -574,49 +548,14 @@ public class GameManager : MonoBehaviour
 		{
 			piece.transform.rotation = Quaternion.Euler(0, 0, piece.transform.rotation.eulerAngles.z + step);
 			angle -= 15;
-			//CancelInvoke("Drop");
 
 			yield return null;
 		}
-		//InvokeRepeating("Drop", 1, 1);
 		yield return null;
 
 
 	}
 
-	IEnumerator Rotate(float current, float angle)      
-	{
-		int rotateOffset = 1;
-		Vector2 pos = piece.transform.position;
-
-		Quaternion desiredRotation = Quaternion.Euler(0, 0, angle + 90);
-		float rotateTime=0;
-
-		while (rotateTime < 0.4f) 
-		{
-			rotateTime += Time.deltaTime;
-			piece.transform.rotation = Quaternion.Lerp(piece.transform.rotation, desiredRotation, Time.deltaTime * 50);
-			acceptInput = false;
-			yield return null;
-		}
-		//piece.transform.rotation = Quaternion.Euler(0, 0, (int)Mathf.Round(30.5f));
-
-		while (Collide3())
-		{
-			piece.transform.position = piece.transform.position + new Vector3(rotateOffset, 0, 0);
-			rotateOffset = -(rotateOffset + (rotateOffset > 0 ? 1 : -1));
-
-			if (rotateOffset > pieceArray.GetLength(0))
-			{
-				piece.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
-				piece.transform.position = pos;
-				break;
-			}
-
-		}
-		acceptInput = true;
-		yield return null;
-	}
 
 	void MoveMobil() {
 #region SwipeMove
@@ -758,20 +697,7 @@ public class GameManager : MonoBehaviour
 
 
 	}
-	//void Rotate(int dir)
-	//{
-	//	int x, y;
-	//	var newArray = new int[pieceArray.GetLength(0), pieceArray.GetLength(0)];
-	//	Debug.Log("newArray:" + newArray.GetLength(0));
-	//	for (int y = 0; y < pieceArray.GetLength(1); y++)
-	//	{
-	//		for (int x = 0; x < pieceArray.GetLength(0); x++)
-	//		{
-	//			newArray[x, y] = pieceArray[y, x];
-	//			newArray[y, x] = pieceArray[x, y];
-	//		}
-	//	}
-	//}
+
 	public bool IsVerticalSwipe()
 	{
 		return VerticalMovementDistance() > HorizontalMovementDistance();
