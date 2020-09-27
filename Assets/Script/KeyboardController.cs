@@ -14,7 +14,6 @@ public class KeyboardController : Controller
     // Update is called once per frame
     void Update()
     {
-		Debug.Log("girdi");
 
 		if (base.acceptInput & (Input.anyKey))
 		{

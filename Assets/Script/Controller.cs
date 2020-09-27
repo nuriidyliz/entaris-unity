@@ -8,6 +8,7 @@ public abstract class Controller : MonoBehaviour
 	public bool acceptInput = true;
 
 	private MoveManager moveManager;
+	private CollisionManager collisionManager;
 	private float time;
 	private float downTime;
 	private float time2;
@@ -29,10 +30,10 @@ public abstract class Controller : MonoBehaviour
 	{
 		moveManager.MoveHorizontal(piece, Direction.Right);
 
-		//if (Collide3())
-		//{
-		//	moveManager.MoveHorizontal(piece, Direction.Left);
-		//}
+		if (collisionManager.Collide3(piece))
+		{
+			moveManager.MoveHorizontal(piece, Direction.Left);
+		}
 	}
 
 	public void TryMoveLeft(GameObject piece)

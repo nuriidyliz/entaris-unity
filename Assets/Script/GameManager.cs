@@ -63,9 +63,14 @@ public class GameManager : MonoBehaviour
 	private bool acceptInput = true;
 
 	private MoveManager moveManager;
+
+	private Controller keyboardController;
+
 	// Start is called before the first frame update
 	void Start()
 	{
+		keyboardController = gameObject.GetComponent<KeyboardController>();
+		keyboardController.enabled = false;
 		moveManager = new MoveManager();
 		FillAreaArray();
 
